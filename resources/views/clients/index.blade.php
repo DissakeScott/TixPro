@@ -151,5 +151,6 @@
     </div>
 
     
-    <script src="{{ asset('js/clients.js') }}"></script>
+   <script src="{{ asset('js/clients.js') }}"></script>
+    <script src="{{ asset('js/global.js') }}"></script>
 @endsection
