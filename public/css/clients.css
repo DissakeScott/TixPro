@@ -1,0 +1,106 @@
+v/* --- Styles spécifiques à la page Clients --- */
+
+.clients-section {
+    margin-top: 10px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.section-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Bouton Ajouter */
+.btn-create-client {
+    background-color: #b5c8d9;
+    border: 1px solid #777;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-create-client:hover {
+    background-color: #a3b9cc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Table */
+.clients-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.clients-table th {
+    background-color: #33333318;
+    text-align: left;
+    padding: 15px;
+    border-bottom: 2px solid #ccc;
+    color: #333;
+}
+
+.clients-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+/* Statut Client */
+.client-status {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.client-status.active {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+}
+
+
+.action-btn {
+    border: none;
+    background: #f0f0f000;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #555;
+    margin-right: 5px;
+    transition: 0.2s;
+}
+
+.deleteBtn:hover {
+    background-color: #fc0505;
+    color: rgb(0, 0, 0);
+}
+ 
+.editBtn:hover {
+    background-color: #42749c;
+    color: white;
+}
+
+
+
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.empty-state td {
+    text-align: center;
+    padding: 60px;
+    color: #888;
+    font-style: italic;
+}

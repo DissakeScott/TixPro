@@ -1,0 +1,177 @@
+/* =========================================================
+   1. OVERLAY (Le fond sombre)
+   ========================================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent */
+    z-index: 1000;
+    
+    /* CACHÉ par défaut */
+    display: none; 
+    
+    justify-content: center;
+    align-items: center;
+}
+
+/* Il devient VISIBLE seulement quand on ajoute la classe .open via JS */
+.modal-overlay.open {
+    display: flex; /* Flex permet de centrer la carte */
+}
+
+/* =========================================================
+   2. CARTE DE LA MODALE
+   ========================================================= */
+.modal-card {
+    background-color: #ffffff; /* Fond blanc pour un look moderne */
+    width: 90%;
+    max-width: 600px;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation: fadeIn 0.3s ease; /* Petit effet d'apparition */
+}
+
+@keyframes fadeIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb; /* Ligne séparatrice plus douce */
+    padding-bottom: 10px;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #9ca3af;
+    transition: color 0.2s;
+}
+
+.btn-close:hover {
+    color: #4b5563;
+}
+
+/* =========================================================
+   3. STRUCTURE DU FORMULAIRE (Layout)
+   ========================================================= */
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.flex-1 { flex: 1; }
+.flex-2 { flex: 2; }
+
+.radio-group {
+    display: flex;
+    gap: 15px;
+    padding-top: 5px;
+}
+
+/* =========================================================
+   4. DESIGN DES CHAMPS DE SAISIE (UI Moderne)
+   ========================================================= */
+
+/* Labels doux et aérés */
+.modal-form label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #4b5563; /* Gris anthracite doux */
+    margin-bottom: 6px;
+}
+
+/* Champs de saisie */
+.modal-form input[type="text"],
+.modal-form input[type="number"],
+.modal-form input[type="email"],
+.modal-form input[type="tel"],
+.modal-form input[type="date"],
+.modal-form select,
+.modal-form textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db; /* Bordure discrète */
+    border-radius: 8px; /* Coins arrondis modernes */
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: #1f2937;
+    background-color: #f9fafb; /* Fond très légèrement gris */
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box;
+}
+
+/* Effet quand on clique dans un champ (Focus) */
+.modal-form input:focus,
+.modal-form select:focus,
+.modal-form textarea:focus {
+    outline: none;
+    border-color: #3b82f6; /* Bordure bleue */
+    background-color: #ffffff; /* Le fond devient blanc pur */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Joli halo lumineux bleu */
+}
+
+/* =========================================================
+   5. FOOTER & BOUTONS
+   ========================================================= */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 16px;
+}
+
+/* Bouton Annuler (Style "Ghost") */
+.btn-cancel {
+    background-color: #ffffff;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+/* Bouton Enregistrer (Call to Action principal) */
+.btn-save {
+    background-color: #2563eb; /* Bleu pro */
+    color: #ffffff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.btn-save:hover {
+    background-color: #1d4ed8; /* Bleu légèrement plus foncé au survol */
+    transform: translateY(-1px); /* Petit effet de soulèvement très pro */
+    box-shadow: 0 6px 8px -1px rgba(37, 99, 235, 0.3);
+}

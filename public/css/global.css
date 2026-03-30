@@ -1,0 +1,352 @@
+:root {
+    --primary-blue: #a5bdd1;
+    --dark-text: #1a1a1a;
+    --gray-bg: #e0e0e0;
+    --card-bg: #f5f5f5;
+    --border-color: #999;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: var(--gray-bg);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 500px; /* Un peu plus large pour l'inscription */
+    padding: 20px;
+}
+
+.login-card {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.main-logo {
+    width: 10px;
+    margin-bottom: 15px;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-blue);
+    border: 1px solid #999;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+
+/* =========================================================
+   FOOTER GLOBAL ET CORRECTION LAYOUT
+   ========================================================= */
+
+/* 1. On s'assure que la partie droite prend bien 100% de la hauteur et peut scroller */
+.main-content {
+    flex: 1; /* Prend tout l'espace à droite de la sidebar */
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Hauteur de l'écran */
+    overflow-y: auto; /* Permet de scroller si le contenu est long */
+}
+
+/* 2. On empêche tes sections (stats, tableaux) de disparaître ou de s'écraser ! */
+.main-content > section,
+.main-content > header {
+    flex-shrink: 0; 
+}
+
+/* 3. Le footer s'adapte parfaitement en bas */
+.main-footer {
+    margin-top: auto; /* C'est cette ligne qui pousse le footer tout en bas */
+    width: 100%;
+    box-sizing: border-box; /* Évite que le padding fasse déborder le footer */
+    padding: 20px 30px;
+    background-color: #ffffff; 
+    border-top: 1px solid #e5e7eb;
+    color: #6b7280;
+    font-size: 0.85rem;
+    flex-shrink: 0; /* Empêche le footer lui-même de s'écraser */
+}
+
+/* Le design intérieur du footer reste le même */
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-links {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.footer-links a {
+    color: #4b5563;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: #2563eb;
+}
+
+.version-badge {
+    background-color: #f3f4f6;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: #4b5563;
+}
+
+.logout-btn {
+    transition: color 0.2s;
+}
+.logout-btn:hover {
+    color: #dc2626 !important; /* Rouge d'alerte */
+}
+
+/* =========================================================
+   EN-TÊTE SUPÉRIEUR (TOP HEADER)
+   ========================================================= */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    /* Assure que le header ne s'écrase pas */
+    flex-shrink: 0; 
+}
+
+/* --- Partie Gauche (Titre & Date) --- */
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.header-title {
+    font-size: 1.4rem;
+    color: #111827;
+    margin: 0;
+    font-weight: 700;
+}
+
+.header-date {
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.header-date i {
+    margin-right: 5px;
+}
+
+/* --- Partie Droite (Notifications & Profil) --- */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* Cloche de notification */
+.notification-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #6b7280;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.notification-btn:hover {
+    color: #111827;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background-color: #ef4444; /* Rouge notification */
+    color: white;
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    border: 2px solid #ffffff;
+}
+
+/* Bloc Utilisateur */
+.user-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 25px;
+    border-left: 1px solid #e5e7eb; /* Petite barre séparatrice */
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 5px rgba(37, 99, 235, 0.3);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #111827;
+    font-size: 0.9rem;
+}
+
+.user-role {
+    font-size: 0.75rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* =========================================================
+   EN-TÊTE DES PAGES (Recherche & Profil)
+   ========================================================= */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #ffffff1c;
+    border-bottom: 1px solid #08080821;
+    height: 70px; /* Hauteur fixe pour un bel alignement global */
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+/* --- Barre de recherche --- */
+.search-container {
+    position: relative;
+    width: 350px;
+}
+
+.search-container .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 10px 15px 10px 40px; /* De l'espace à gauche pour l'icône */
+    border: 1px solid #e5e7eb;
+    border-radius: 8px; /* Un arrondi moderne et léger */
+    background-color: #f9fafb;
+    font-size: 0.9rem;
+    color: #1118271a;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.search-container input:focus {
+    outline: none;
+    background-color: #ffffff;
+    border-color: #3b82f6; /* Bordure bleue au clic */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* --- Section des icônes à droite --- */
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    color: #6b7280;
+}
+
+.header-icons i {
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.header-icons i:hover {
+    color: #111827; /* Devient plus foncé au survol */
+}
+
+/* --- La petite cloche et son point rouge --- */
+.notification-badge-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.notification-badge-container .badge {
+    position: absolute;
+    top: -5px;
+    right: -6px;
+    background-color: #ef4444;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: bold;
+    height: 16px;
+    width: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+}
+
+/* --- L'avatar avec tes initiales --- */
+.user-profile-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); /* Beau dégradé bleu */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+    cursor: pointer;
+}
+
+.dropdown-icon {
+    font-size: 0.8rem !important;
+    margin-left: -12px;
+}
