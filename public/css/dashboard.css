@@ -8,7 +8,7 @@
 
 /* --- Barre latérale (Sidebar) --- */
 .sidebar {
-    width: 200px;
+    width: 250px;
     background-color: rgb(181, 200, 217); /* Bleu clair de la barre latérale */
     display: flex;
     flex-direction: column;

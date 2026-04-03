@@ -5,7 +5,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\TicketController;
-
+use App\Http\Controllers\ProjetController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -18,6 +18,9 @@ Route::get('/test-clients', function () {
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/register', [AuthController::class, 'showRegister']);
+Route::post('/register', [AuthController::class, 'register']);
+
 
 // routes protégées (avec auth)
 Route::middleware('auth')->group(function () {
@@ -26,7 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/clients', [ClientController::class, 'index']);
         Route::post('/clients', [ClientController::class, 'store']);
 
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+   Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+
+
+   
     Route::get('/clients/{id}/edit', [ClientController::class, 'edit']); 
     Route::delete('/clients/{id}', [ClientController::class, 'destroy']); 
     
@@ -36,4 +42,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/tickets/{id}/edit', [TicketController::class, 'edit']); 
     Route::put('/tickets/{id}', [TicketController::class, 'update']); 
     Route::delete('/tickets/{id}', [TicketController::class, 'destroy']);
+
+
+    Route::get('/projets', [ProjetController::class, 'index']);
+    Route::post('/projets', [ProjetController::class, 'store']);
+    Route::get('/projets/{id}/edit', [ProjetController::class, 'edit']); 
+    Route::put('/projets/{id}', [ProjetController::class, 'update']); 
+    Route::delete('/projets/{id}', [ProjetController::class, 'destroy']);
 });

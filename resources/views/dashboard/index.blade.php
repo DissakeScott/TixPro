@@ -7,7 +7,7 @@
         
         <div class="welcome-banner">
             <div>
-                <h1>Bonjour, {{ $nom }} ! 👋</h1>
+                <h1>Bonjour, {{ Auth::user()->name }} ! 👋</h1>
                 <p>Voici un résumé de votre activité et des tâches en cours aujourd'hui.</p>
             </div>
             <a href="/tickets" class="btn-primary-action"><i class="fa-solid fa-plus"></i> Nouveau Ticket</a>
@@ -64,10 +64,10 @@
                                 <tr>
                                     <td class="fw-bold">{{ $ticket->titre }}</td>
                                     
-                                    <td class="text-gray">Projet N°{{ $ticket->projet_id ?? 'N/A' }}</td>
+                                    <td class="text-gray">{{ $ticket->projet->nom ?? 'N/A' }}</td>
                                     
                                     <td><span class="status-badge {{ $badgeClass }}">{{ $ticket->priorite }}</span></td>
-                                    <td><a href="/tickets/{{ $ticket->id }}" class="btn-view-small">Voir</a></td>
+                                    <td><a href="/tickets" class="btn-view-small">Voir</a></td>
                                 </tr>
                             @endforeach
                         </tbody>

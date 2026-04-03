@@ -1,4 +1,4 @@
-v/* --- Styles spécifiques à la page Clients --- */
+/* --- Styles spécifiques à la page Clients (Version SaaS Moderne) --- */
 
 .clients-section {
     margin-top: 10px;
@@ -9,90 +9,143 @@ v/* --- Styles spécifiques à la page Clients --- */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
-/* Bouton Ajouter */
+/* Bouton Ajouter - Plus moderne, effet 3D subtil */
 .btn-create-client {
-    background-color: #b5c8d9;
-    border: 1px solid #777;
+    background-color: var(--primary-blue); /* Bleu primaire moderne */
+    color: black;
+    border: rgba(0, 0, 0, 0.397) 1px solid;
     padding: 10px 20px;
     border-radius: 8px;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 0.95rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
 }
 
 .btn-create-client:hover {
     background-color: #a3b9cc;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    
 }
 
-/* Table */
+/* 🎯 NOUVEAU : Conteneur du tableau pour l'effet "Carte" */
+.table-container {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden; /* Important pour garder les coins arrondis */
+    border: 1px solid #e2e8f0;
+}
+
+/* Le Tableau */
 .clients-table {
     width: 100%;
     border-collapse: collapse;
+    font-size: 0.95rem;
 }
 
+/* En-tête du tableau : Discret mais lisible */
 .clients-table th {
-    background-color: #33333318;
+    background-color: #f8fafc;
     text-align: left;
-    padding: 15px;
-    border-bottom: 2px solid #ccc;
-    color: #333;
+    padding: 16px 24px;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #e2e8f0;
 }
 
+/* Cellules du tableau */
 .clients-table td {
-    padding: 15px;
-    border-bottom: 1px solid #eee;
+    padding: 16px 24px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
     vertical-align: middle;
 }
 
-/* Statut Client */
+/* Effet de survol sur la ligne entière pour guider l'œil */
+.clients-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.clients-table tbody tr:hover {
+    background-color: #e7e7e754; /* Un gris extrêmement clair */
+}
+
+/* Style spécifique pour la colonne du Nom du client (pour le faire ressortir) */
+.clients-table td:first-child {
+    font-weight: 600;
+    color: #0f172a;
+}
+
+/* Icônes dans la colonne Coordonnées (Email/Tel) */
+.clients-table td i {
+    color: #94a3b8;
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+}
+
+/* Statut Client - Style "Pill" moderne */
 .client-status {
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
 }
 
 .client-status.active {
-    background-color: #d1e7dd;
-    color: #0f5132;
-    border: 1px solid #badbcc;
+    background-color: #dcfce7;
+    color: #166534;
 }
 
-
+/* Boutons d'action (Modifier / Supprimer) - Fonds pastel au survol */
 .action-btn {
     border: none;
-    background: #f0f0f000;
-    width: 30px;
-    height: 30px;
-    border-radius: 5px;
+    background: transparent;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     cursor: pointer;
-    color: #555;
-    margin-right: 5px;
-    transition: 0.2s;
+    color: #94a3b8;
+    margin-right: 4px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.badge-number {
+    background-color: rgb(181, 200, 217);;
+    color: black;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.editBtn:hover {
+    background-color: #dbeafe; /* Fond bleu clair */
+    color: #2563eb; /* Icône bleue */
 }
 
 .deleteBtn:hover {
-    background-color: #fc0505;
-    color: rgb(0, 0, 0);
-}
- 
-.editBtn:hover {
-    background-color: #42749c;
-    color: white;
+    background-color: #fee2e2; /* Fond rouge clair */
+    color: #dc2626; /* Icône rouge */
 }
 
-
-
-
-/* Animation */
+/* Animation d'apparition */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -101,6 +154,6 @@ v/* --- Styles spécifiques à la page Clients --- */
 .empty-state td {
     text-align: center;
     padding: 60px;
-    color: #888;
+    color: #94a3b8;
     font-style: italic;
 }

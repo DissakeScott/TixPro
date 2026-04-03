@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/clients.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('css/projects.css') }}">
+
     <link rel="stylesheet" href="{{ asset('css/tickets.css') }}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -30,23 +32,26 @@
                 <a href="/clients" class="menu-item {{ request()->is('clients') ? 'active' : '' }}"><i class="fa-solid fa-users"></i> Clients</a>
                 <a href="/tickets" class="menu-item {{ request()->is('tickets') ? 'active' : '' }}"><i class="fa-solid fa-ticket"></i> Tickets</a>
             </nav>
-            <div class="sidebar-bottom">
-               <a href="/logout" title="Se déconnecter" class="logout-btn" onclick="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?');">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <div class="sidebar-bottom">
+                <a href="/parametres" class="bottom-menu-item">
+                    <i class="fa-solid fa-gear"></i> Paramètres
                 </a>
-                <a href="/parametres" title="Paramètres">
-                    <i class="fa-solid fa-gear"></i>
-                </a>
+                
+                <form action="/logout" method="POST" style="margin: 0; width: 100%;">
+                    @csrf
+                    <button type="submit" class="bottom-menu-item btn-logout" onclick="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?');">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Déconnexion
+                    </button>
+                </form>
             </div>
         </aside>
 
         <main class="main-content">
-            
-            @if(request()->is('dashboard'))
+       @if(request()->is('dashboard'))
                 <header class="top-header">
                     <div class="header-left">
                         <h2 class="header-title">@yield('title', 'Tableau de bord')</h2>
-                        <span class="header-date"><i class="fa-regular fa-calendar"></i> {{ $dateFr }}</span>
+                        <span class="header-date"><i class="fa-regular fa-calendar"></i> {{ \Carbon\Carbon::now()->locale('fr_FR')->isoFormat('dddd D MMMM YYYY') }}</span>
                     </div>
                     
                     <div class="header-right">
@@ -56,10 +61,10 @@
                         </button>
                         
                         <div class="user-profile-header">
-                            <div class="user-avatar">{{ $initialeSimple }}</div>
+                            <div class="user-avatar">{{ Auth::user()->initials }}</div>
                             <div class="user-info">
-                                <span class="user-name">{{ $nom }}</span>
-                                <span class="user-role">{{ $role }}</span>
+                                <span class="user-name">{{ Auth::user()->name }}</span>
+                                <span class="user-role">{{ Auth::user()->role ?? 'Client' }}</span>
                             </div>
                         </div>
                     </div>
@@ -78,7 +83,15 @@
                             <span class="badge">1</span>
                         </div>
                         <i class="fa-solid fa-gear settings-icon"></i>
-                        <div class="user-profile-circle">{{ $initiales }}</div>
+                       
+                        <div class="user-profile-header">
+                            <div class="user-avatar">{{ Auth::user()->initials }}</div>
+                            <div class="user-info">
+                                <span class="user-name">{{ Auth::user()->name }}</span>
+                                <span class="user-role">{{ Auth::user()->role ?? 'Client' }}</span>
+                            </div>
+                        </div>
+                        
                         <i class="fa-solid fa-chevron-down dropdown-icon"></i>
                     </div>
                 </header>

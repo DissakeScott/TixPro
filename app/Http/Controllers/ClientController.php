@@ -3,16 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Client;
 
 class ClientController 
 {
     public function index()
     {
-        $clients = \App\Models\Client::all();
-        // recuperer tous les clients de la base de données
+       
+        $clients = Client::where('user_id', Auth::id())
+        -> withCount(['projets' => function ($query) {
+            $query->where('statut', '!=', 'Terminé'); 
+        }])
+        -> orderBy('entreprise', 'asc')
+        -> get();
+
         return view('clients.index', compact('clients'));
-        //afficher la vue clients/index.blade.php en lui passant la variable $clients
     
      }
 
@@ -33,6 +39,7 @@ public function store(Request $request)
         $client->email = $request->email;
         $client->telephone = $request->telephone;
         $client->adresse = $request->adresse;
+        $client->user_id = Auth::id();
         
         
         $client->save();

@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body style="background-image: url('{{ asset('assets/background.png') }}'); 
+             background-size: cover; 
+             background-position: center; 
+             background-repeat: no-repeat;">
 
     <div class="login-container">
         <main class="login-card">

@@ -20,6 +20,8 @@
             <button class="filter-tab" data-filter="Faible">FAIBLE</button>
             <button class="filter-tab" data-filter="Moyenne">MOYENNE</button>
             <button class="filter-tab" data-filter="Haute">HAUTE</button>
+            <button class="filter-tab" data-filter="Inclus">INCLUS</button>
+            <button class="filter-tab" data-filter="Facturable">FACTURABLE</button>
         </div>
 
         <div class="tickets-grid-container" id="ticketsListContainer">
@@ -43,7 +45,7 @@
                         }
                     @endphp
 
-                    <div class="ticket-card {{ $borderClass }}" data-priority="{{ $ticket->priorite }}">
+                    <div class="ticket-card {{ $borderClass }}" data-priority="{{ $ticket->priorite }}" data-type="{{ $ticket->type }}" data-id="{{ $ticket->id }}">
                         
                         <div class="card-header">
                             <span class="card-project">{{ $ticket->projet->nom ?? 'Projet inconnu' }}</span>
@@ -79,6 +81,17 @@
 
 <!-- 
     modal de création d'un ticket et modal de détails d'un ticket -->
+
+    <!-- @if ($errors->any())
+    <div style="background-color: #fee2e2; color: #dc2626; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        <strong>🚨 Erreur de création :</strong>
+        <ul style="margin-top: 10px; margin-bottom: 0;">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif -->
 
     <div class="modal-overlay" id="modalTicket" style="display: none;">
         <div class="modal-card">

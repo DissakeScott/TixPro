@@ -51,6 +51,64 @@ body {
     margin-top: 10px;
 }
 
+/* --- Barre latérale bas (Paramètres & Déconnexion) --- */
+
+.sidebar-bottom {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Espace entre les deux boutons */
+     /* Petite ligne de séparation discrète */
+}
+
+/* Le style commun pour les deux boutons */
+.bottom-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    color: #334155; /* Gris foncé lisible */
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Fixer la largeur des icônes pour que le texte soit parfaitement aligné */
+.bottom-menu-item i {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+    color: #64748b; /* Icône un peu plus claire que le texte */
+    transition: all 0.2s ease;
+}
+
+/* Effet au survol global */
+.bottom-menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.5); /* Effet d'éclaircissement */
+    color: #0f172a;
+}
+
+.bottom-menu-item:hover i {
+    color: #2563eb; /* L'icône devient bleue au survol */
+}
+
+/* Effet spécifique pour le bouton déconnexion (Rouge au survol) */
+.btn-logout:hover {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+.btn-logout:hover i {
+    color: #dc2626;
+}
 
 /* =========================================================
    FOOTER GLOBAL ET CORRECTION LAYOUT
@@ -246,9 +304,9 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background-color: #ffffff1c;
+    background-color: #ffffff0c;
     border-bottom: 1px solid #08080821;
-    height: 70px; /* Hauteur fixe pour un bel alignement global */
+    height: 100px; 
     box-sizing: border-box;
     flex-shrink: 0;
 }

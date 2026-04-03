@@ -2,9 +2,15 @@
             setTimeout(function() {
             document.getElementById('successAlert').style.display = 'none';
             }, 50000);
+   
+   
+            const modalCreate = document.getElementById('clientModal');
     
-    
-        
+        window.addEventListener('click', (e) => {
+        if (e.target === modalCreate) modalCreate.style.display = 'none';
+       
+    });
+
 
         document.addEventListener('DOMContentLoaded', function() {
 

@@ -1,0 +1,239 @@
+/* --- Reset & Base --- */
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    background-color: #e2e8f0; /* Fond gris bleuté pour faire ressortir la carte blanche */
+    color: #1e293b;
+    overflow-x: hidden;
+}
+
+/* --- Layout Split Screen --- */
+.split-layout {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* --- Panneau Gauche (Image) : 70% --- */
+.left-panel {
+    flex: 7; /* Occupe 70% de l'espace */
+    position: relative;
+    overflow: hidden;
+    background-color: #0f172a; /* Fond sombre de secours */
+}
+
+.left-panel-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* L'image remplit tout sans se déformer */
+    object-position: center;
+}
+
+/* --- Panneau Droit (Formulaire) : 30% --- */
+.right-panel {
+    flex: 3; /* Occupe 30% de l'espace */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+/* --- La "Carte" du Formulaire --- */
+.form-card {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Belle ombre douce */
+    width: 100%;
+    max-width: 480px; /* Taille maximale pour ne pas être trop étiré */
+}
+
+/* --- Logo et Textes --- */
+.logo-area {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.logo-area img {
+    max-width: 180px;
+    display: inline-block;
+}
+
+.form-card h1 {
+    font-size: 1.6rem;
+    margin: 0 0 25px 0;
+    text-align: center;
+    color: #0f172a;
+}
+
+/* --- Structure du Formulaire --- */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+}
+
+.flex-3 { flex: 3; }
+.flex-1 { flex: 1; }
+
+/* --- Inputs --- */
+.input-full input, .select-wrapper select, .input-with-action input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #f8fafc;
+    font-size: 0.9rem;
+    color: #0f172a;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.input-full input:focus, .select-wrapper select:focus, .input-with-action input:focus {
+    border-color: #b5c8d9; /* Ton bleu ESIEA */
+    box-shadow: 0 0 0 3px rgba(181, 200, 217, 0.3);
+    background-color: #ffffff;
+}
+
+/* --- Select Custom --- */
+.select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.select-wrapper select {
+    appearance: none;
+    padding-right: 30px;
+    cursor: pointer;
+}
+
+.custom-arrow {
+    position: absolute;
+    right: 12px;
+    pointer-events: none;
+    color: #64748b;
+    font-size: 0.8rem;
+}
+
+/* --- Mot de passe avec Action (Oeil) --- */
+.input-with-action {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-action input {
+    padding-right: 35px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    color: #64748b;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.toggle-password:hover {
+    color: #0f172a;
+}
+
+/* --- Bouton Soumettre --- */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #b5c8d9; /* Ton bleu ciel */
+    color: #1e293b;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+}
+
+.btn-submit:hover {
+    background-color: #9eb5c9;
+}
+
+/* --- Liens et Messages --- */
+.login-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.connect {
+    color: #1e293b;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.connect:hover {
+    text-decoration: underline;
+    font-style: italic;
+}
+
+/* Messages d'erreur & succès */
+.error-box {
+    color: #b91c1c;
+    background: #fef2f2;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    border: 1px solid #fecaca;
+}
+
+.success-box {
+    color: #15803d;
+    background: #f0fdf4;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    border: 1px solid #bbf7d0;
+}
+
+/* --- Responsive pour petits écrans --- */
+@media (max-width: 1024px) {
+    .split-layout {
+        flex-direction: column;
+    }
+    
+    .left-panel {
+        flex: none;
+        height: 35vh; /* Sur tablette/mobile, l'image prend le haut de l'écran */
+    }
+    
+    .right-panel {
+        flex: none;
+        padding: 20px;
+    }
+    
+    .form-card {
+        margin-top: -50px; /* Fait légèrement chevaucher la carte sur l'image */
+        z-index: 10;
+    }
+}

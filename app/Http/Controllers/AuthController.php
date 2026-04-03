@@ -4,44 +4,83 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash; // 👈 INDISPENSABLE pour crypter le mot de passe
+use App\Models\Client;
+use App\Models\Projet;
+use App\Models\Ticket;
+use App\Models\User;
 
-class AuthController
+class AuthController 
 {
-   
+    // ===================================================
+    // 1. PARTIE CONNEXION 
+    // ===================================================
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    public function login(Request $request)
+  public function login(Request $request)
     {
-        // 1. On vérifie que les champs sont remplis
+        // 1. Validation basique
         $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
-        // 2. On tente la connexion (on relie 'mot_de_passe' de la BDD au champ 'password' du formulaire)
-        $credentials = [
-    'email' => $request->email,
-    'password' => $request->password // <-- Le mot magique que Laravel attend !
-];
+        // 2. On cherche l'utilisateur (en enlevant les potentiels espaces invisibles)
+        $user = \App\Models\User::where('email', trim($request->email))->first();
 
-        // Auth::attempt va automatiquement hacher le mot de passe et le comparer avec la BDD
-        if (Auth::attempt($credentials)) {
-            // Connexion réussie ! On regénère la session pour la sécurité
+        // 3. LA MÉTHODE FORTE : On vérifie le mot de passe manuellement
+        if ($user && \Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
+            
+            
+            Auth::login($user);
+            
+            
             $request->session()->regenerate();
             
-            return redirect()->intended('/dashboard');
+            
+            return redirect('/dashboard');
         }
 
-        // Si ça échoue, on renvoie sur la page avec une erreur
+        // 4. Si ça échoue, on renvoie l'erreur
         return back()->withErrors([
             'email' => 'Les identifiants ne correspondent pas.',
-        ]);
+        ])->onlyInput('email');
+    }
+    // ===================================================
+    // 2. PARTIE INSCRIPTION 
+    // ===================================================
+
+    public function showRegister()
+    {
+        return view('auth.register');
     }
 
-  
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password), // On crypte ici !
+        ]);
+
+        // On le connecte direct après l'inscription
+        Auth::login($user);
+
+        return redirect('/dashboard')->with('success', 'Bienvenue sur TixPro, ' . $user->name . ' !');
+    }
+
+    // ===================================================
+    // 3. PARTIE DÉCONNEXION 
+    // ===================================================
     public function logout(Request $request)
     {
         Auth::logout();

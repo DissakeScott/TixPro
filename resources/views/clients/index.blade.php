@@ -47,13 +47,13 @@
                     <span class="text-muted">{{ $client->contact_role }}</span>
                 </td>
                 <td>
-                    <a href="mailto:{{ $client->email }}" style="color: var(--primary-blue); text-decoration: none;">
+                    <a href="mailto:{{ $client->email }}" style="color: black; text-decoration: bold;">
                         <i class="fa-regular fa-envelope"></i> {{ $client->email }}
                     </a><br>
                     <span class="text-muted"><i class="fa-solid fa-phone"></i> {{ $client->telephone }}</span>
                 </td>
                 <td style="text-align: center;">
-                    <span class="badge-number">{{ $client->projets_actifs ?? 0 }}</span>
+                    <span class="badge-number">{{ $client->projets_count ?? 0 }}</span>
                 </td>
                 <td>
                     <span class="status-badge {{ $badgeStatut }}">{{ $statut }}</span>
@@ -68,7 +68,7 @@
                         data-email="{{ $client->email }}"
                         data-telephone="{{ $client->telephone }}"
                         data-adresse="{{ $client->adresse }}">
-                     <i class="fa-solid fa-pen" style="color: #666;"></i>
+                     <i class="fa-solid fa-pen editBtn" style="color: #272727;"></i>
                     </button>
                     <form action="/clients/{{ $client->id }}" method="POST" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer définitivement ce client ?');">
                         @csrf

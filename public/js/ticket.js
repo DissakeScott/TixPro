@@ -118,8 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // On affiche ou cache les cartes
             ticketCards.forEach(card => {
                 const cardPriority = card.getAttribute('data-priority');
-                if (filterValue === 'all' || cardPriority === filterValue) {
-                    card.style.display = 'flex'; // (ou block selon ton CSS)
+                const cardType = card.getAttribute('data-type');
+                if (filterValue === 'all' || cardPriority === filterValue || cardType === filterValue) {
+                    card.style.display = 'flex'; 
                 } else {
                     card.style.display = 'none';
                 }
