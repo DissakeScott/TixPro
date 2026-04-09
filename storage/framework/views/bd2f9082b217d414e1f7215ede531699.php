@@ -210,6 +210,9 @@ modal de détails d'un ticket -->
                     <div style="display: flex; gap: 10px;">
                         <button type="button" class="btn-cancel" onclick="document.getElementById('modalTicketDetails').style.display='none'">Fermer</button>
                         <button type="button" id="btnOpenEditTicket" class="btn-save" style="background-color: #c4dbf3; color: black;">Modifier</button>
+                      <button type="button" id="btnGoToSaisieTemps" class="btn-save" style="background-color: #3b82f6; color: white;">
+                            <i class="fa-solid fa-clock"></i> Saisir du temps
+                      </button>
                     </div>
                 </footer>
             </div>
@@ -283,6 +286,41 @@ modal de détails d'un ticket -->
         </div>
     </div>
 
+<!-- modal de saisie du temps passé sur un ticket -->
+
+<div class="modal-overlay" id="modalSaisieTemps" style="display: none;">
+        <div class="modal-card">
+            <header class="modal-header">
+                <h2><i class="fa-solid fa-stopwatch"></i> Saisir du temps</h2>
+                <button type="button" class="btn-close" onclick="document.getElementById('modalSaisieTemps').style.display='none'">&times;</button>
+            </header>
+            
+            <form id="formSaisieTemps" class="modal-form" method="POST" action="">
+                <?php echo csrf_field(); ?>
+
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label>Date de l'intervention</label>
+                        <input type="date" name="date_saisie" value="<?php echo e(date('Y-m-d')); ?>" required>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label>Durée (en heures)</label>
+                        <input type="number" step="0.25" min="0.1" name="duree" placeholder="Ex: 1.5" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Qu'avez-vous fait ? (Optionnel)</label>
+                    <textarea name="commentaire" rows="2" placeholder="Ex: Résolution du bug d'affichage sur mobile..."></textarea>
+                </div>
+
+                <footer class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="document.getElementById('modalSaisieTemps').style.display='none'">Annuler</button>
+                    <button type="submit" class="btn-save" style="background-color: #22c55e;">Enregistrer le temps</button>
+                </footer>
+            </form>
+        </div>
+    </div>
 
         <script src="<?php echo e(asset('js/ticket.js')); ?>"></script>
 

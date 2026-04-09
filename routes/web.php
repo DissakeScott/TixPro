@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\ProjetController;
+use App\Http\Controllers\TempsPasseController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -49,4 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/projets/{id}/edit', [ProjetController::class, 'edit']); 
     Route::put('/projets/{id}', [ProjetController::class, 'update']); 
     Route::delete('/projets/{id}', [ProjetController::class, 'destroy']);
+
+
+    Route::post('/tickets/{ticket}/temps', [TempsPasseController::class, 'store']);
 });

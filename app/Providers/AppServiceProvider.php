@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
+use App\Observers\TempsPasseObserver;
+use App\Models\TempsPasse;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
