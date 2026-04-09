@@ -3,6 +3,8 @@
 @section('title', 'Projets - TixPro')
 
 @section('content')
+   
+
     <section class="projects-view-section">
         <div class="section-header-row">
             <h2>Mes Projets</h2>
@@ -33,7 +35,7 @@
                 
                 @foreach ($projets as $project)
                     @php
-                        // Logique des couleurs
+                        // Logique des couleurs de base
                         $borderClass = 'border-pending';
                         $badgeClass  = 'bg-pending';
                         
@@ -44,6 +46,10 @@
                             $borderClass = 'border-done'; 
                             $badgeClass = 'bg-done'; 
                         }
+
+                        // Calcul pour la barre de progression (pour la modale)
+                        $pourcentage = ($project->heures_allouees > 0) ? ($project->heures_consommees / $project->heures_allouees) * 100 : 0;
+                        $couleurBarre = ($pourcentage >= 100) ? 'bg-danger' : (($pourcentage >= 80) ? 'bg-warning' : 'bg-success');
                     @endphp
 
                     <div class="project-card {{ $borderClass }}" data-status="{{ $project->statut }}">
@@ -62,7 +68,7 @@
                             </div>
                             <div class="detail-row">
                                 <i class="fa-solid fa-hourglass-half"></i> 
-                                <span><strong>{{ $project->heures_allouees }} h</strong> allouées</span>
+                                <span><strong>{{ $project->heures_consommees }}h</strong> / {{ $project->heures_allouees }}h</span>
                             </div>
                         </div>
                         
@@ -76,7 +82,12 @@
                                 data-debut="{{ $project->date_debut }}"
                                 data-fin="{{ $project->date_fin }}"
                                 data-heures="{{ $project->heures_allouees }}"
-                                data-desc="{{ $project->description }}">
+                                data-desc="{{ $project->description }}"
+                                data-consommees="{{ $project->heures_consommees }}"
+                                data-restantes="{{ $project->heures_restantes }}"
+                                data-taux="{{ $project->taux_horaire ?? '0' }}"
+                                data-pourcentage="{{ min($pourcentage, 100) }}"
+                                data-couleur="{{ $couleurBarre }}">
                             <i class="fa-solid fa-eye"></i> + de détails
                         </button>
                     </div>
@@ -87,7 +98,9 @@
         </div>
     </section>
 
-    <!-- modal de création de projet -->
+
+<!-- 
+    modal pour la création d'un projet (affiché lors du clic sur "Nouveau Projet") -->
 
     <div class="modal-overlay" id="modalProject" style="display: none;">
         <div class="modal-card">
@@ -98,7 +111,6 @@
             
             <form class="modal-form" id="formCreateProject" method="POST" action="/projets">
                 @csrf
-
                 <div class="form-group">
                     <label>Nom du projet</label>
                     <input type="text" name="nom" placeholder="Ex: Refonte Site Web" required>
@@ -124,16 +136,20 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group flex-1">
-                        <label>Date de début</label>
+                        <label>Début</label>
                         <input type="date" name="date_debut" required>
                     </div>
                     <div class="form-group flex-1">
-                        <label>Date de fin</label>
+                        <label>Fin</label>
                         <input type="date" name="date_fin" required>
                     </div>
                     <div class="form-group flex-1">
                         <label>Heures (h)</label>
                         <input type="number" name="heures_allouees" placeholder="Ex: 50" required>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label>Taux H.S (€)</label>
+                        <input type="number" step="0.01" name="taux_horaire" placeholder="Ex: 85.50">
                     </div>
                 </div>
                 <div class="form-group">
@@ -148,7 +164,9 @@
         </div>
     </div>
 
-    <!-- modal de visualisation des détails d'un projet -->
+
+<!-- 
+    modal pour les détails du projet (affiché lors du clic sur "Voir + de détails") -->
 
     <div class="modal-overlay" id="modalProjectDetails" style="display: none;">
         <div class="modal-card">
@@ -162,22 +180,37 @@
                     <h3 id="viewProjTitle">Titre du Projet</h3>
                     <span id="viewProjStatus" class="status-pill">Statut</span>
                 </div>
-                <hr class="divider">
-                <div class="info-grid">
-                    <div class="info-item"><label>Date de début</label><p id="viewProjStart">-</p></div>
-                    <div class="info-item"><label>Date de fin</label><p id="viewProjEnd">-</p></div>
-                    <div class="info-item"><label>Heures Allouées</label><p id="viewProjHours">0 h</p></div>
-                    <div class="info-item"><label>Heures Consommées</label><p>0 h</p></div>
+                
+                <div style="display: flex; gap: 20px; margin-top: 15px;margin-bottom: 10px; font-size: 0.9rem; color: #475569;">
+                    <div><i class="fa-regular fa-calendar"></i> Début: <strong id="viewProjStart">-</strong></div>
+                    <div><i class="fa-regular fa-calendar-check"></i> Fin: <strong id="viewProjEnd">-</strong></div>
                 </div>
-                <hr class="divider">
+
+                <div class="card-contrat">
+                    <h4 style="margin-top: 0; margin-bottom: 10px; font-size: 1rem; color: #1e293b;"><i class="fa-solid fa-file-contract"></i> Suivi du Contrat</h4>
+                    
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px;">
+                        <span>Consommé: <strong id="viewProjConsommees">0</strong>h</span>
+                        <span>Alloué: <strong id="viewProjHours">0</strong>h</span>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div id="viewProjProgressBar" class="progress-bar bg-success" style="width: 0%;"></div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-top: 8px;">
+                        <span>Reste: <strong id="viewProjRestantes">0</strong>h</span>
+                        <span>Taux H.S: <strong id="viewProjTaux">0</strong> €/h</span>
+                    </div>
+                </div>
+
                 <div class="description-box">
                     <label>Objectifs / Description</label>
                     <p id="viewProjDesc">Aucune description disponible.</p>
                 </div>
 
-
                <footer class="modal-footer" style="justify-content: space-between; display: flex; width: 100%;">
-                    <form id="formDeleteProject" method="POST" action="" style="margin: 0;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce projet ? Tous les tickets associés risquent d\'être impactés.');">
+                    <form id="formDeleteProject" method="POST" action="" style="margin: 0;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce projet ?');">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn-cancel" style="color: #dc3545; border-color: #dc3545; display: flex; align-items: center; gap: 8px;">
@@ -190,14 +223,11 @@
                         <button type="button" id="btnOpenEditProject" class="btn-save" style="background-color: #c4dbf3; color: black;">Modifier</button>
                     </div>
                 </footer>
-            
             </div>
         </div>
     </div>
 
-
-    <!-- modal de modification de projet  -->
-
+    <!-- modal pour la modification d'un projet (affiché lors du clic sur "Modifier" dans la modale de détails) -->
 
     <div class="modal-overlay" id="modalEditProject" style="display: none;">
         <div class="modal-card">
@@ -208,14 +238,15 @@
             
             <form class="modal-form" id="formEditProject" method="POST" action="">
                 @csrf
-                @method('PUT') <div class="form-group">
+                @method('PUT') 
+                <div class="form-group">
                     <label>Nom du projet</label>
                     <input type="text" id="editProjNom" name="nom" required>
                 </div>
                 <div class="form-row">
                     <div class="form-group flex-2">
                         <label>Client</label>
-                        <select id="editProjClient" name="client_id" required>
+                        <select id="editProjClient" name="client_id" required >
                             <option value="">Sélectionner un client...</option>
                             @foreach ($clients as $c)
                                 <option value="{{ $c->id }}">{{ $c->entreprise }}</option>
@@ -233,16 +264,20 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group flex-1">
-                        <label>Date de début</label>
+                        <label>Début</label>
                         <input type="date" id="editProjDebut" name="date_debut" required>
                     </div>
                     <div class="form-group flex-1">
-                        <label>Date de fin</label>
+                        <label>Fin</label>
                         <input type="date" id="editProjFin" name="date_fin" required>
                     </div>
                     <div class="form-group flex-1">
                         <label>Heures (h)</label>
                         <input type="number" id="editProjHeures" name="heures_allouees" required>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label>Taux H.S (€)</label>
+                        <input type="number" step="0.01" id="editProjTaux" name="taux_horaire">
                     </div>
                 </div>
                 <div class="form-group">
@@ -256,7 +291,6 @@
             </form>
         </div>
     </div>
-
 
     <script src="{{ asset('js/projects.js') }}"></script>
     <script src="{{ asset('js/global.js') }}"></script>

@@ -100,6 +100,25 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('editProjFin').value = fin;
             document.getElementById('editProjHeures').value = heures;
             document.getElementById('editProjDesc').value = desc;
+            document.getElementById('viewProjConsommees').textContent = this.dataset.consommees;
+            document.getElementById('viewProjHours').textContent = this.dataset.heures;
+            
+            let restantes = this.dataset.restantes;
+            let restEle = document.getElementById('viewProjRestantes');
+            restEle.textContent = restantes;
+            // Si les heures sont négatives, on met le texte en rouge
+            restEle.style.color = (parseFloat(restantes) < 0) ? '#ef4444' : '#1e293b';
+
+            document.getElementById('viewProjTaux').textContent = this.dataset.taux;
+
+            // Met à jour la barre de progression (largeur et couleur)
+            let progressBar = document.getElementById('viewProjProgressBar');
+            progressBar.style.width = this.dataset.pourcentage + '%';
+            progressBar.className = 'progress-bar ' + this.dataset.couleur;
+            
+            // Et on n'oublie pas de remplir le formulaire d'édition au cas où on clique sur "Modifier"
+            document.getElementById('editProjTaux').value = this.dataset.taux;
+
 
             // d) Affichage de la modale des détails
             modalDetails.style.display = 'flex';

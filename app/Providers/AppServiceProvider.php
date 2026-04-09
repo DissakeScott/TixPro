@@ -20,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        TempsPasse::observe(TempsPasseObserver::class);
         View::composer('layouts.app', function ($view) {
             
          $nom = 'Utilisateur';
