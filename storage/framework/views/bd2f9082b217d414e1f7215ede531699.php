@@ -13,6 +13,12 @@
 
             </div>
         <?php endif; ?>
+        <?php if(session('error')): ?>
+            <div style="background-color: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 20px; border-radius: 5px; border-left: 5px solid #dc3545;">
+                <i class="fa-solid fa-triangle-exclamation"></i> <strong>Opération refusée :</strong> <?php echo e(session('error')); ?>
+
+            </div>
+        <?php endif; ?>
         
         <div class="filter-tabs-container">
             <button class="filter-tab active" data-filter="all">TOUS</button>
@@ -67,7 +73,9 @@
                                 data-pill="<?php echo e($pillClass); ?>"
                                 data-type="<?php echo e($ticket->type); ?>"
                                 data-temps="<?php echo e($ticket->temps_estime); ?>"
-                                data-statut="<?php echo e($ticket->statut ?? 'À faire'); ?>" data-desc="<?php echo e($ticket->description); ?>">
+                                data-statut="<?php echo e($ticket->statut); ?>" 
+                                data-desc="<?php echo e($ticket->description); ?>"
+                                data-collaborateur="<?php echo e($ticket->user->name ?? 'Non assigné'); ?>">
                              <i class="fa-solid fa-eye"></i> + de détails
                         </button>
                     </div>
@@ -175,7 +183,7 @@ modal de détails d'un ticket -->
                     <span id="viewTicketPriority" class="priority-pill">Priorité</span>
                 </div>
                 <hr class="divider">
-                <div class="info-grid">
+               <div class="info-grid">
                     <div class="info-item">
                         <label>Type</label>
                         <p id="viewTicketType">-</p>
@@ -186,11 +194,11 @@ modal de détails d'un ticket -->
                     </div>
                     <div class="info-item">
                         <label>Collaborateur</label>
-                        <p>Scott Dissake</p>
+                        <p id="viewTicketCollaborator">-</p>
                     </div>
                     <div class="info-item">
                         <label>Statut Actuel</label>
-                        <p class="status-text">À faire</p>
+                        <p id="viewTicketStatus" class="status-text" style="font-weight: bold;">-</p>
                     </div>
                 </div>
                 <hr class="divider">
@@ -247,11 +255,11 @@ modal de détails d'un ticket -->
                         </select>
                     </div>
                     <div class="form-group flex-1">
-                        <label>Statut</label>
+                        <label>statut</label>
                         <select id="editTicketStatus" name="statut" required>
-                            <option value="À faire">À faire</option>
+                            <option value="Nouveau">Nouveau</option>
                             <option value="En cours">En cours</option>
-                            <option value="Terminé">Terminé</option>
+                            <option value="Terminé">À valider</option>
                         </select>
                     </div>
                 </div>

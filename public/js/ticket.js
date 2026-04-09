@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterTabs = document.querySelectorAll('.filter-tab');
     const ticketCards = document.querySelectorAll('.ticket-card');
 
+
+
     // =========================================================
     // 2. OUVERTURE & FERMETURE DES MODALES (Général)
     // =========================================================
@@ -58,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const temps     = this.getAttribute('data-temps');
             const statut    = this.getAttribute('data-statut');
             const desc      = this.getAttribute('data-desc');
+            const collaborateur = this.getAttribute('data-collaborateur');
             const pillClass = this.getAttribute('data-pill');
 
             // b) Remplissage de la modale DÉTAILS
@@ -68,6 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('viewTicketType').textContent = type;
             document.getElementById('viewTicketTime').textContent = temps + ' h';
             document.getElementById('viewTicketDesc').textContent = desc || "Aucune description fournie.";
+            document.getElementById('viewTicketCollaborator').textContent = collaborateur;
+            document.getElementById('viewTicketStatus').textContent = statut;
 
             // 🎯 NOUVEAU : On passe "secrètement" l'ID au bouton de Saisie de Temps
             if(btnGoToSaisieTemps) {

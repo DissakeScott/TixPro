@@ -17,7 +17,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role', // 👈 N'oublie pas d'ajouter 'role' si tu l'as mis dans ta base de données !
+        'role', 
     ];
 
     public function getInitialsAttribute()

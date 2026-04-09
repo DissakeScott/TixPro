@@ -24,6 +24,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 
 // routes protégées (avec auth)
+
 Route::middleware('auth')->group(function () {
     
     Route::get('/dashboard', [dashboardController::class, 'index']);
@@ -53,4 +54,13 @@ Route::middleware('auth')->group(function () {
 
 
     Route::post('/tickets/{ticket}/temps', [TempsPasseController::class, 'store']);
+});
+
+Route::middleware(['auth', 'role:Client'])->group(function () {
+    
+   Route::get('/portail-client', [ClientPortalController::class, 'index'])->name('portail.client');
+    
+    // Valider/Refuser un ticket
+    Route::post('/portail-client/tickets/{id}/valider', [ClientPortalController::class, 'validerTicket']);
+    
 });

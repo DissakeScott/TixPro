@@ -1,0 +1,232 @@
+/* =========================================================
+   PORTAIL CLIENT - TIXPRO
+   ========================================================= */
+
+/* --- Conteneur Principal --- */
+.portal-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.portal-title {
+    color: #1e293b;
+    margin-bottom: 5px;
+    font-size: 2rem;
+}
+
+.portal-subtitle {
+    color: #64748b;
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+
+/* --- Alertes et Messages --- */
+.alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* --- Section Action Requise (Tickets à valider) --- */
+.action-box {
+    background: #fff3cd;
+    border: 1px solid #ffe69c;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 40px;
+}
+
+.action-box h2 {
+    color: #664d03;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.action-box-desc {
+    color: #664d03;
+    margin-bottom: 20px;
+}
+
+.ticket-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ticket-card {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.ticket-info strong {
+    font-size: 1.1rem;
+    color: #0f172a;
+}
+
+.ticket-meta {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* Boutons de validation */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-reject {
+    background: white;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.btn-reject:hover {
+    background: #f8d7da;
+}
+
+.btn-accept {
+    background: #198754;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.btn-accept:hover {
+    background: #157347;
+    transform: translateY(-1px);
+}
+
+/* --- Section Projets en cours --- */
+.section-title {
+    color: #1e293b;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.project-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.status-badge {
+    background: #e2e8f0;
+    color: #334155;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.project-name {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    color: #0f172a;
+}
+
+/* Barre de progression du contrat */
+.contract-label {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.progress-track {
+    width: 100%;
+    background-color: #f1f5f9;
+    border-radius: 10px;
+    height: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+
+.fill-normal { background-color: #3b82f6; }
+.fill-danger { background-color: #ef4444; }
+
+.contract-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #334155;
+}
+
+/* État vide */
+.empty-state {
+    grid-column: 1 / -1;
+    background: white;
+    padding: 40px;
+    text-align: center;
+    border-radius: 12px;
+    border: 1px dashed #cbd5e1;
+    color: #64748b;
+    font-size: 1rem;
+}

@@ -24,6 +24,8 @@ class TicketController
     
    public function store(Request $request)
     {
+
+
         
         $request->validate([
           'titre' => 'required|string|max:255',
@@ -36,7 +38,15 @@ class TicketController
         ]);
 
         
+    $projet = Projet::findOrFail($request->projet_id);
 
+      
+        // Si le collaborateur a saisi un temps estimé, on vérifie qu'on a le budget
+        if ($request->type === 'Inclus' && $request->temps_estime && $request->temps_estime > $projet->heures_restantes) {
+            return back()
+                ->withInput() 
+                ->with('error', "Alerte Budget : Le temps estimé ({$request->temps_estime}h) dépasse les heures restantes du projet ({$projet->heures_restantes}h). Veuillez réduire l'estimation ou marquer le ticket comme facturable en supplément.");
+        }
        
       $ticket = new Ticket();
         $ticket->titre = $request->titre;
@@ -46,7 +56,7 @@ class TicketController
         $ticket->temps_estime = $request->temps_estime;
         $ticket->description = $request->description;
         
-        $ticket->statut = $request->statut ?? 'A faire'; // Par défaut, le statut est "Ouvert" si non spécifié
+        $ticket->statut = 'Nouveau'; // Par défaut, le statut est "Ouvert" si non spécifié
         
 
         $ticket->user_id = Auth::id();
@@ -67,29 +77,44 @@ class TicketController
     }
 
 
-    public function update(Request $request, $id)
+   public function update(Request $request, $id)
     {
+        // 1. Validation des données
         $request->validate([
             'titre' => 'required|string|max:255',
-            'projet_id' => 'required|integer',
+            'projet_id' => 'required|exists:projets,id', // 'exists' est plus sécurisé que 'integer'
             'priorite' => 'required|string',
             'type' => 'required|string',
-            'temps_estime' => 'required|numeric',
-           
+            'statut' => 'required|string', // 👈 On n'oublie pas de valider le statut !
+            'temps_estime' => 'nullable|numeric|min:0', // 👈 Rendu optionnel (nullable)
             'description' => 'required|string',
         ]);
 
-        $ticket = Ticket::where('user_id', Auth::id())->findOrFail($id);
+        $ticket = Ticket::findOrFail($id);
+        
+        
+        $projet = Projet::findOrFail($request->projet_id);
+
+        if ($request->type === 'Inclus' && $request->temps_estime && $request->temps_estime > $projet->heures_restantes) {
+            return back()
+                ->withInput()
+                ->with('error', "Alerte Budget : Le temps estimé ({$request->temps_estime}h) dépasse les heures restantes du projet ({$projet->heures_restantes}h).");
+        }
+
         $ticket->titre = $request->titre;
         $ticket->projet_id = $request->projet_id;
         $ticket->priorite = $request->priorite;
         $ticket->type = $request->type;
         $ticket->temps_estime = $request->temps_estime;
-        
         $ticket->description = $request->description;
+        
+        
+        $ticket->statut = $request->statut; 
+        
         $ticket->save();
 
-        return redirect('/tickets')->with('success', 'Le ticket a été mis à jour !');
+        
+        return back()->with('success', 'Le ticket a été mis à jour avec succès !');
     }
 
 
