@@ -38,23 +38,32 @@ class ClientPortalController
     /**
      * Permet au client d'accepter ou de refuser un ticket
      */
-    public function validerTicket(Request $request, $id)
+   public function validerTicket(Request $request, $id)
     {
+        // 1. On récupère le ticket
         $ticket = Ticket::findOrFail($id);
 
-        // Sécurité : on s'assure que c'est bien 'accepter' ou 'refuser'
-        $request->validate(['action' => 'required|in:accepter,refuser']);
+        // (Optionnel mais recommandé) Sécurité : on vérifie que le ticket appartient bien à un projet de ce client
+        // if ($ticket->projet->client_id !== Auth::id()) { abort(403); }
 
-        if ($request->action === 'accepter') {
+        // 2. On lit l'action envoyée par le bouton (accepter ou refuser)
+        $action = $request->input('action');
+
+        // 3. La logique métier
+        if ($action === 'accepter') {
             $ticket->statut = 'Validé';
-            $message = "Vous avez accepté le ticket facturable.";
-        } else {
+            $message = "Le ticket '{$ticket->titre}' a été accepté. Notre équipe va s'en charger !";
+        } elseif ($action === 'refuser') {
             $ticket->statut = 'Refusé';
-            $message = "Vous avez refusé le ticket. L'agence va vous recontacter.";
+            $message = "Le ticket '{$ticket->titre}' a été refusé et annulé.";
+        } else {
+            return back()->withErrors(['Erreur d\'action.']);
         }
 
+        // 4. On sauvegarde en base de données
         $ticket->save();
 
+        // 5. On renvoie le client sur son portail avec un petit message de confirmation
         return back()->with('success', $message);
     }
 }

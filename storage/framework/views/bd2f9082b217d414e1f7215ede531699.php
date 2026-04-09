@@ -216,7 +216,7 @@ modal de détails d'un ticket -->
                     </form>
 
                     <div style="display: flex; gap: 10px;">
-                        <button type="button" class="btn-cancel" onclick="document.getElementById('modalTicketDetails').style.display='none'">Fermer</button>
+                        <!-- <button type="button" class="btn-cancel" onclick="document.getElementById('modalTicketDetails').style.display='none'">Fermer</button> -->
                         <button type="button" id="btnOpenEditTicket" class="btn-save" style="background-color: #c4dbf3; color: black;">Modifier</button>
                       <button type="button" id="btnGoToSaisieTemps" class="btn-save" style="background-color: #3b82f6; color: white;">
                             <i class="fa-solid fa-clock"></i> Saisir du temps
@@ -259,7 +259,7 @@ modal de détails d'un ticket -->
                         <select id="editTicketStatus" name="statut" required>
                             <option value="Nouveau">Nouveau</option>
                             <option value="En cours">En cours</option>
-                            <option value="Terminé">À valider</option>
+                            <option value="À valider">À valider</option>
                         </select>
                     </div>
                 </div>

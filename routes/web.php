@@ -7,6 +7,8 @@ use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\ProjetController;
 use App\Http\Controllers\TempsPasseController;
+use App\Http\Controllers\ClientPortalController;
+
 Route::get('/', function () {
     return view('welcome');
 });

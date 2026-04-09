@@ -60,16 +60,13 @@
                             </div>
                         </div>
                         
-                        <div class="form-group flex-1">
-                            <label>Rôle</label>
-                            <div class="select-wrapper">
-                                <select name="role" required>
-                                    <option value="Collaborateur" {{ old('role') == 'Collaborateur' ? 'selected' : '' }}>Collaborateur</option>
-                                    <option value="Client" {{ old('role') == 'Client' ? 'selected' : '' }}>Client</option>
-                                </select>
-                                <i class="fa-solid fa-chevron-down custom-arrow"></i>
-                            </div>
-                        </div>
+                        <div class="form-group" style="margin-bottom: 15px;">
+            <label for="role" style="display: block; margin-bottom: 5px; font-weight: bold;">Je suis un :</label>
+            <select name="role" id="role" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                <option value="Client">Client </option>
+                <option value="Collaborateur">Collaborateur</option>
+            </select>
+        </div>
                     </div>
 
                     <div class="form-row">

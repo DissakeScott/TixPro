@@ -21,7 +21,8 @@
 
 
     <div class="dashboard-container">
-        
+        <?php if(Auth::check() && Auth::user()->role !== 'Client'): ?>
+   
         <aside class="sidebar">
             <div class="sidebar-top">
                 <img src="<?php echo e(asset('assets/ESIEA.png')); ?>" alt="Logo ESIEA" class="sidebar-logo">
@@ -45,6 +46,7 @@
                 </form>
             </div>
         </aside>
+         <?php endif; ?>
 
         <main class="main-content">
        <?php if(request()->is('dashboard')): ?>
