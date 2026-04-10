@@ -62,7 +62,7 @@
                         <div class="card-meta">
                             <div class="meta-item"><i class="fa-regular fa-clock"></i> {{ $ticket->temps_estime }}h</div>
                             <div class="meta-item"><i class="fa-solid fa-tag"></i> {{ $ticket->type }}</div>
-                            <div class="meta-item"><i class="fa-solid fa-circle-user"></i> SD</div>
+                            <div class="meta-item"><i class="fa-solid fa-circle-user"></i> {{ Auth::user()->initials }}</div>
                         </div>
                         
                         <button class="btn-details php-btn-details" 
@@ -259,6 +259,8 @@ modal de détails d'un ticket -->
                         <select id="editTicketStatus" name="statut" required>
                             <option value="Nouveau">Nouveau</option>
                             <option value="En cours">En cours</option>
+                             <option value="En attente">En attente </option>
+                            <option value="Terminé">Terminé</option>
                             <option value="À valider">À valider</option>
                         </select>
                     </div>

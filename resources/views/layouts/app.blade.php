@@ -73,11 +73,14 @@
                 </header>
 
             @else
+             @if(!request()->is('parametres'))
                 <header class="content-header">
+                   
                     <div class="search-container">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
                         <input type="text" id="globalSearchInput" style="color: black;" placeholder="     Rechercher...">
                     </div>
+                   
                     
                     <div class="header-icons">
                         <div class="notification-badge-container">
@@ -97,6 +100,7 @@
                         <i class="fa-solid fa-chevron-down dropdown-icon"></i>
                     </div>
                 </header>
+                @endif
             @endif
 
             <section class="page-content">

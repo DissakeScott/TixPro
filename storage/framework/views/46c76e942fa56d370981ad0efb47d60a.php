@@ -5,98 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un compte - TixPro</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link rel="stylesheet" href="<?php echo e(asset('css/register.css')); ?>">
 </head>
-<body>
+<body style="background-image: url('<?php echo e(asset('assets/background.png')); ?>'); 
+             background-size: cover; 
+             background-position: center; 
+             background-repeat: no-repeat;">
 
-    <div class="split-layout">
+    <div class="auth-card">
         
-        <div class="left-panel">
-            <img src="<?php echo e(asset('assets/register.png')); ?>" alt="TixPro Branding" class="left-panel-img">
+        <div class="logo-area">
+            <img src="<?php echo e(asset('assets/ESIEA.png')); ?>" alt="TixPro Logo">
         </div>
 
-        <div class="right-panel">
-            
-            <div class="form-card">
-                
-                <div class="logo-area">
-                    <img src="<?php echo e(asset('assets/ESIEA.png')); ?>" alt="Logo ESIEA">
-                </div>
+        <h1>Inscription</h1>
 
-                <h1>Créer votre compte</h1>
+        <?php if($errors->any()): ?>
+            <div class="error-box">
+                <ul style="margin: 0; padding-left: 20px;">
+                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <li><?php echo e($error); ?></li>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </ul>
+            </div>
+        <?php endif; ?>
 
-                <?php if($errors->any()): ?>
-                    <div class="error-box">
-                        <ul style="margin: 0; padding-left: 20px;">
-                            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <li><?php echo e($error); ?></li>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </ul>
-                    </div>
-                <?php endif; ?>
-                
-                <?php if(session('success')): ?>
-                    <div class="success-box">
-                        <?php echo e(session('success')); ?>
+        <form action="/register" method="POST">
+            <?php echo csrf_field(); ?>
 
-                    </div>
-                <?php endif; ?>
-
-                <form action="/register" method="POST">
-                    <?php echo csrf_field(); ?>
-
-                    <div class="form-group">
-                        <label>Nom complet</label>
-                        <div class="input-full">
-                            <input type="text" name="name" value="<?php echo e(old('name')); ?>" placeholder="Jean Dupont" required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group flex-3">
-                            <label>Adresse e-mail</label>
-                            <div class="input-full">
-                                <input type="email" name="email" value="<?php echo e(old('email')); ?>" placeholder="vous@exemple.fr" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group" style="margin-bottom: 15px;">
-            <label for="role" style="display: block; margin-bottom: 5px; font-weight: bold;">Je suis un :</label>
-            <select name="role" id="role" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-                <option value="Client">Client </option>
-                <option value="Collaborateur">Collaborateur</option>
-            </select>
-        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group flex-1">
-                            <label>Mot de passe</label>
-                            <div class="input-with-action">
-                                <input type="password" name="password" id="password" placeholder="8 caractères min." required>
-                                <i class="fa-regular fa-eye toggle-password" onclick="toggleVisibility('password', this)"></i>
-                            </div>
-                        </div>
-                        <div class="form-group flex-1">
-                            <label>Confirmer</label>
-                            <div class="input-with-action">
-                                <input type="password" name="password_confirmation" id="password_confirm" placeholder="Confirmez" required>
-                                <i class="fa-regular fa-eye toggle-password" onclick="toggleVisibility('password_confirm', this)"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn-submit">S'inscrire</button>
-                </form>
-
-                <p class="login-link">
-                    Déjà un compte ? <a href="/login" class="connect">connectez-vous !</a>
-                </p>
+            <div class="input-group">
+                <i class="fa-regular fa-user icon-left"></i>
+                <input type="text" name="name" value="<?php echo e(old('name')); ?>" placeholder="Nom complet" required>
             </div>
 
-        </div>
+            <div class="input-group">
+                <i class="fa-regular fa-envelope icon-left"></i>
+                <input type="email" name="email" value="<?php echo e(old('email')); ?>" placeholder="Adresse e-mail" required>
+            </div>
 
+            <div class="input-group">
+                <i class="fa-solid fa-briefcase icon-left"></i>
+                <select name="role" required>
+                    <option value="" disabled selected>Je suis un...</option>
+                    <option value="Client">Client</option>
+                    <option value="Collaborateur">Collaborateur</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock icon-left"></i>
+                <input type="password" name="password" id="password" placeholder="Mot de passe (8 car. min)" required>
+                <i class="fa-regular fa-eye toggle-password" onclick="toggleVisibility('password', this)"></i>
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-shield-check icon-left"></i>
+                <input type="password" name="password_confirmation" id="password_confirm" placeholder="Confirmer le mot de passe" required>
+                <i class="fa-regular fa-eye toggle-password" onclick="toggleVisibility('password_confirm', this)"></i>
+            </div>
+
+            <button type="submit" class="btn-submit">S'INSCRIRE</button>
+        </form>
+
+        <p class="login-link">
+            Déjà un compte ? <a href="/login">Connectez-vous !</a>
+        </p>
     </div>
 
     <script>

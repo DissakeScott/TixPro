@@ -54,6 +54,12 @@ Route::middleware('auth')->group(function () {
     Route::put('/projets/{id}', [ProjetController::class, 'update']); 
     Route::delete('/projets/{id}', [ProjetController::class, 'destroy']);
 
+    
+    Route::get('/parametres', [App\Http\Controllers\ProfileController::class, 'edit'])->name('parametres.edit');
+    Route::put('/parametres/profil', [App\Http\Controllers\ProfileController::class, 'updateProfile'])->name('parametres.updateProfile');
+    Route::put('/parametres/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('parametres.updatePassword');
+    
+
 
     Route::post('/tickets/{ticket}/temps', [TempsPasseController::class, 'store']);
 });
@@ -64,5 +70,8 @@ Route::middleware(['auth', 'role:Client'])->group(function () {
     
     // Valider/Refuser un ticket
     Route::post('/portail-client/tickets/{id}/valider', [ClientPortalController::class, 'validerTicket']);
+
+
+    
     
 });

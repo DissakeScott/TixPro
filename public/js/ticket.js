@@ -90,6 +90,17 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('editTicketDesc').value = desc;
             document.getElementById('editTicketType').value = type;
 
+            const btnSaisieTemps = document.getElementById('btnGoToSaisieTemps');
+            
+            if (type === 'Facturable') {
+                // Si c'est facturable, on cache complètement le bouton
+                btnSaisieTemps.style.display = 'none';
+            } else {
+                // Sinon (si c'est Inclus), on s'assure qu'il est bien visible
+                btnSaisieTemps.style.display = 'block'; 
+                // Note : si ton bouton utilisait 'flex' ou 'inline-block' dans ton CSS de base, remets cette valeur à la place de 'block'
+            }
+
             // d) Ouverture de la modale de détails
             modalDetails.style.display = 'flex';
         });
@@ -127,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+
     // =========================================================
     // 5. GESTION DE LA SAISIE DE TEMPS (LA MODALE FINALE)
     // =========================================================
@@ -143,6 +155,9 @@ document.addEventListener('DOMContentLoaded', () => {
             modalDetails.style.display = 'none';
             modalSaisieTemps.style.display = 'flex';
         });
+         
+    
+    
     }
 
 });
