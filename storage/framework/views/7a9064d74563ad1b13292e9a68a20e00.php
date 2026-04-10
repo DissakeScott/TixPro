@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'TixPro - ERP')</title> 
+    <title><?php echo $__env->yieldContent('title', 'TixPro - ERP'); ?></title> 
     
-    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/clients.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/global.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/dashboard.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/modal.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/clients.css')); ?>">
 
-    <link rel="stylesheet" href="{{ asset('css/projects.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/projects.css')); ?>">
 
-    <link rel="stylesheet" href="{{ asset('css/tickets.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/tickets.css')); ?>">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -21,46 +21,46 @@
 
 
     <div class="dashboard-container">
-        @if(Auth::check() && Auth::user()->role !== 'Client')
+        <?php if(Auth::check() && Auth::user()->role !== 'Client'): ?>
    
         <aside class="sidebar">
             <div class="sidebar-top">
-                <img src="{{ asset('assets/ESIEA.png') }}" alt="Logo ESIEA" class="sidebar-logo">
+                <img src="<?php echo e(asset('assets/ESIEA.png')); ?>" alt="Logo ESIEA" class="sidebar-logo">
             </div>
             <nav class="sidebar-menu">
-                <a href="/dashboard" class="menu-item {{ request()->is('dashboard') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> Dashboard</a>
-                <a href="/projets" class="menu-item {{ request()->is('projets') ? 'active' : '' }}"><i class="fa-solid fa-layer-group"></i> Mes Projets</a>
-        @if(Auth::check() && Auth::user()->role !== 'Collaborateur')
-            <a href="/clients" class="menu-item {{ request()->is('clients') ? 'active' : '' }}"><i class="fa-solid fa-users"></i> Clients</a> 
-        @endif
-            <a href="/tickets" class="menu-item {{ request()->is('tickets') ? 'active' : '' }}"><i class="fa-solid fa-ticket"></i> Tickets</a>
+                <a href="/dashboard" class="menu-item <?php echo e(request()->is('dashboard') ? 'active' : ''); ?>"><i class="fa-solid fa-house"></i> Dashboard</a>
+                <a href="/projets" class="menu-item <?php echo e(request()->is('projets') ? 'active' : ''); ?>"><i class="fa-solid fa-layer-group"></i> Mes Projets</a>
+        <?php if(Auth::check() && Auth::user()->role !== 'Collaborateur'): ?>
+            <a href="/clients" class="menu-item <?php echo e(request()->is('clients') ? 'active' : ''); ?>"><i class="fa-solid fa-users"></i> Clients</a> 
+        <?php endif; ?>
+            <a href="/tickets" class="menu-item <?php echo e(request()->is('tickets') ? 'active' : ''); ?>"><i class="fa-solid fa-ticket"></i> Tickets</a>
             </nav>
           <div class="sidebar-bottom">
-            @if(Auth::user()->role === 'Administrateur')
-                <a href="{{ route('users.index') }}" class="bottom-menu-item {{ request()->is('utilisateurs') ? 'active' : '' }}">
+            <?php if(Auth::user()->role === 'Administrateur'): ?>
+                <a href="<?php echo e(route('users.index')); ?>" class="bottom-menu-item <?php echo e(request()->is('utilisateurs') ? 'active' : ''); ?>">
                     <i class="fa-solid fa-users"></i> Équipe & Clients
                 </a>
-            @endif
-                <a href="/parametres" class="bottom-menu-item" {{ request()->is('parametres') ? 'active' : '' }}>
+            <?php endif; ?>
+                <a href="/parametres" class="bottom-menu-item" <?php echo e(request()->is('parametres') ? 'active' : ''); ?>>
                     <i class="fa-solid fa-gear"></i> Paramètres
                 </a>
                 
                 <form action="/logout" method="POST" style="margin: 0; width: 100%;">
-                    @csrf
+                    <?php echo csrf_field(); ?>
                     <button type="submit" class="bottom-menu-item btn-logout" onclick="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?');">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i> Déconnexion
                     </button>
                 </form>
             </div>
         </aside>
-         @endif
+         <?php endif; ?>
 
         <main class="main-content">
-       @if(request()->is('dashboard'))
+       <?php if(request()->is('dashboard')): ?>
                 <header class="top-header">
                     <div class="header-left">
-                        <h2 class="header-title">@yield('title', 'Tableau de bord')</h2>
-                        <span class="header-date"><i class="fa-regular fa-calendar"></i> {{ \Carbon\Carbon::now()->locale('fr_FR')->isoFormat('dddd D MMMM YYYY') }}</span>
+                        <h2 class="header-title"><?php echo $__env->yieldContent('title', 'Tableau de bord'); ?></h2>
+                        <span class="header-date"><i class="fa-regular fa-calendar"></i> <?php echo e(\Carbon\Carbon::now()->locale('fr_FR')->isoFormat('dddd D MMMM YYYY')); ?></span>
                     </div>
                     
                     <div class="header-right">
@@ -70,20 +70,20 @@
                         </button>
                         
                         <div class="user-profile-header">
-                            <div class="user-avatar">{{ Auth::user()->initials }}</div>
+                            <div class="user-avatar"><?php echo e(Auth::user()->initials); ?></div>
                             <div class="user-info">
-                                <span class="user-name">{{ Auth::user()->name }}</span>
-                                <span class="user-role">{{ Auth::user()->role ?? 'Client' }}</span>
+                                <span class="user-name"><?php echo e(Auth::user()->name); ?></span>
+                                <span class="user-role"><?php echo e(Auth::user()->role ?? 'Client'); ?></span>
                             </div>
                         </div>
                     </div>
                 </header>
 
-            @elseif(request()->is('utilisateurs'))
+            <?php elseif(request()->is('utilisateurs')): ?>
                 <header class="top-header">
                     <div class="header-left">
-                        <h2 class="header-title">@yield('title', 'gestion des utilisateurs')</h2>
-                        <span class="header-date"><i class="fa-regular fa-calendar"></i> {{ \Carbon\Carbon::now()->locale('fr_FR')->isoFormat('dddd D MMMM YYYY') }}</span>
+                        <h2 class="header-title"><?php echo $__env->yieldContent('title', 'gestion des utilisateurs'); ?></h2>
+                        <span class="header-date"><i class="fa-regular fa-calendar"></i> <?php echo e(\Carbon\Carbon::now()->locale('fr_FR')->isoFormat('dddd D MMMM YYYY')); ?></span>
                     </div>
                     
                     <div class="header-right">
@@ -93,10 +93,10 @@
                         </button>
                         
                         <div class="user-profile-header">
-                            <div class="user-avatar">{{ Auth::user()->initials }}</div>
+                            <div class="user-avatar"><?php echo e(Auth::user()->initials); ?></div>
                             <div class="user-info">
-                                <span class="user-name">{{ Auth::user()->name }}</span>
-                                <span class="user-role">{{ Auth::user()->role ?? 'Client' }}</span>
+                                <span class="user-name"><?php echo e(Auth::user()->name); ?></span>
+                                <span class="user-role"><?php echo e(Auth::user()->role ?? 'Client'); ?></span>
                             </div>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
 
 
 
-             @elseif(!request()->is('parametres'))
+             <?php elseif(!request()->is('parametres')): ?>
                 <header class="content-header">
                    
                     <div class="search-container">
@@ -126,25 +126,25 @@
                         <i class="fa-solid fa-gear settings-icon"></i>
                        
                         <div class="user-profile-header">
-                            <div class="user-avatar">{{ Auth::user()->initials }}</div>
+                            <div class="user-avatar"><?php echo e(Auth::user()->initials); ?></div>
                             <div class="user-info">
-                                <span class="user-name">{{ Auth::user()->name }}</span>
-                                <span class="user-role">{{ Auth::user()->role ?? 'Client' }}</span>
+                                <span class="user-name"><?php echo e(Auth::user()->name); ?></span>
+                                <span class="user-role"><?php echo e(Auth::user()->role ?? 'Client'); ?></span>
                             </div>
                         </div>
                         
                         <i class="fa-solid fa-chevron-down dropdown-icon"></i>
                     </div>
                 </header>
-        @endif
+        <?php endif; ?>
             
             <section class="page-content">
-                @yield('content')
+                <?php echo $__env->yieldContent('content'); ?>
             </section>
 
             <footer class="main-footer">
                 <div class="footer-content">
-                    <p>&copy; {{ date('Y') }} Tix Pro. Développé avec <i class="fa-solid fa-code"></i> par Scott Dissake.</p>
+                    <p>&copy; <?php echo e(date('Y')); ?> Tix Pro. Développé avec <i class="fa-solid fa-code"></i> par Scott Dissake.</p>
                     <div class="footer-links">
                         <a href="#">Mentions légales</a>
                         <a href="#">Support</a>
@@ -156,6 +156,6 @@
         </main>
     </div>
 
-    <script src="{{ asset('js/global.js') }}"></script>
+    <script src="<?php echo e(asset('js/global.js')); ?>"></script>
 </body>
-</html>
+</html><?php /**PATH /home/scotty/tp-web-3/tixpro-laravel/resources/views/layouts/app.blade.php ENDPATH**/ ?>

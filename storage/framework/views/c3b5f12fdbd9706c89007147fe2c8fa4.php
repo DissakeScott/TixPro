@@ -1,17 +1,15 @@
-@extends('layouts.app')
-
-@section('title', 'Liste des Clients - TixPro')
+<?php $__env->startSection('title', 'Liste des Clients - TixPro'); ?>
 
 
 
 <!-- affichage de la liste des clients avec possibilité de créer, modifier et supprimer un client. -->
 
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="section-header-row">
         <h2>Listes des clients</h2>
-       @if(Auth::user()->role === 'Administrateur')
+       <?php if(Auth::user()->role === 'Administrateur'): ?>
         <button class="btn-create-client"><i class="fa-solid fa-plus"></i> Ajouter un client</button>
-        @endif
+        <?php endif; ?>
     </div>
       <section class="clients-section">
                 
@@ -28,69 +26,71 @@
                             </tr>
                         </thead>
     <tbody id="clientsListBody">
-    @if($clients->isEmpty())
+    <?php if($clients->isEmpty()): ?>
         <tr class="empty-state" id="noClientMessage">
             <td colspan="6">Aucun client enregistré pour le moment.</td>
         </tr>
-    @else
-        @foreach ($clients as $client)
-            @php
+    <?php else: ?>
+        <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php
                 
                 $statut = $client->statut ?? 'Actif'; 
                 $badgeStatut = ($statut === 'Actif') ? 'badge-actif' : 'badge-inactif';
-            @endphp
+            ?>
             <tr>
                 <td>
-                    <strong>{{ $client->entreprise }}</strong><br>
-                    <small class="text-muted">{{ $client->adresse }}</small>
+                    <strong><?php echo e($client->entreprise); ?></strong><br>
+                    <small class="text-muted"><?php echo e($client->adresse); ?></small>
                 </td>
                 <td>
-                    <strong>{{ $client->contact_nom }}</strong><br>
-                    <span class="text-muted">{{ $client->contact_role }}</span>
+                    <strong><?php echo e($client->contact_nom); ?></strong><br>
+                    <span class="text-muted"><?php echo e($client->contact_role); ?></span>
                 </td>
                 <td>
-                    <a href="mailto:{{ $client->email }}" style="color: black; text-decoration: bold;">
-                        <i class="fa-regular fa-envelope"></i> {{ $client->email }}
+                    <a href="mailto:<?php echo e($client->email); ?>" style="color: black; text-decoration: bold;">
+                        <i class="fa-regular fa-envelope"></i> <?php echo e($client->email); ?>
+
                     </a><br>
-                    <span class="text-muted"><i class="fa-solid fa-phone"></i> {{ $client->telephone }}</span>
+                    <span class="text-muted"><i class="fa-solid fa-phone"></i> <?php echo e($client->telephone); ?></span>
                 </td>
                 <td style="text-align: center;">
-                    <span class="badge-number">{{ $client->projets_count ?? 0 }}</span>
+                    <span class="badge-number"><?php echo e($client->projets_count ?? 0); ?></span>
                 </td>
                 <td>
-                    <span class="status-badge {{ $badgeStatut }}">{{ $statut }}</span>
+                    <span class="status-badge <?php echo e($badgeStatut); ?>"><?php echo e($statut); ?></span>
                 </td>
                 <td>
 <!--                     continuer d'implémenter les modifications -->
                    <button class="action-btn editBtn" title="Modifier" style="border: none; background: none; cursor: pointer;"
-                        data-id="{{ $client->id }}"
-                        data-entreprise="{{ $client->entreprise }}"
-                        data-contact_nom="{{ $client->contact_nom }}"
-                        data-contact_role="{{ $client->contact_role }}"
-                        data-email="{{ $client->email }}"
-                        data-telephone="{{ $client->telephone }}"
-                        data-adresse="{{ $client->adresse }}">
+                        data-id="<?php echo e($client->id); ?>"
+                        data-entreprise="<?php echo e($client->entreprise); ?>"
+                        data-contact_nom="<?php echo e($client->contact_nom); ?>"
+                        data-contact_role="<?php echo e($client->contact_role); ?>"
+                        data-email="<?php echo e($client->email); ?>"
+                        data-telephone="<?php echo e($client->telephone); ?>"
+                        data-adresse="<?php echo e($client->adresse); ?>">
                      <i class="fa-solid fa-pen editBtn" style="color: #272727;"></i>
                     </button>
-                    <form action="/clients/{{ $client->id }}" method="POST" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer définitivement ce client ?');">
-                        @csrf
-                        @method('DELETE')
+                    <form action="/clients/<?php echo e($client->id); ?>" method="POST" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer définitivement ce client ?');">
+                        <?php echo csrf_field(); ?>
+                        <?php echo method_field('DELETE'); ?>
                         <button type="submit" class="action-btn text-danger deleteBtn" title="Supprimer" style="border: none;cursor: pointer;">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </form>
                 </td>
             </tr>
-        @endforeach
-    @endif
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    <?php endif; ?>
 </tbody>
                     </table>
                 </div>
             </section>
 
-    @if(session('success'))
+    <?php if(session('success')): ?>
         <div id="successAlert" style="background-color: #d4edda; color: #155724; padding: 15px; margin: 20px auto; border-radius: 5px; max-width: 400px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-            <i class="fa-solid fa-check-circle"></i> {{ session('success') }}
+            <i class="fa-solid fa-check-circle"></i> <?php echo e(session('success')); ?>
+
         </div>
 
         <script>
@@ -98,7 +98,7 @@
             document.getElementById('successAlert').style.display = 'none';
             }, 5000);
         </script>
-    @endif
+    <?php endif; ?>
 
     <!-- modal de creation d'un client  -->
     
@@ -110,7 +110,7 @@
 
             <form class="modal-form" id="formCreateClient" method="POST" action="/clients">
                 
-                @csrf
+                <?php echo csrf_field(); ?>
 
                 <div class="form-group">
                     <label>Nom de l'entreprise / Client</label>
@@ -153,6 +153,7 @@
     </div>
 
     
-   <script src="{{ asset('js/clients.js') }}"></script>
-    <script src="{{ asset('js/global.js') }}"></script>
-@endsection
+   <script src="<?php echo e(asset('js/clients.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/global.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/scotty/tp-web-3/tixpro-laravel/resources/views/clients/index.blade.php ENDPATH**/ ?>

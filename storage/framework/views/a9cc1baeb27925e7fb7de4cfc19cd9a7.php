@@ -1,24 +1,23 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'Projets - TixPro'); ?>
 
-@section('title', 'Projets - TixPro')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
    
 
     <section class="projects-view-section">
         <div class="section-header-row">
             <h2>Mes Projets</h2>
-            @if(Auth::user()->role === 'Administrateur')
+            <?php if(Auth::user()->role === 'Administrateur'): ?>
             <button class="btn-add-project" id="btnOpenProjectModal"><i class="fa-solid fa-plus"></i> Nouveau Projet</button>
-            @endif
+            <?php endif; ?>
             
         </div>
 
-        @if(session('success'))
+        <?php if(session('success')): ?>
             <div style="background-color: #d4edda; color: #155724; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
-                <i class="fa-solid fa-check-circle"></i> {{ session('success') }}
+                <i class="fa-solid fa-check-circle"></i> <?php echo e(session('success')); ?>
+
             </div>
-        @endif
+        <?php endif; ?>
         
         <div class="filter-tabs-container">
             <button class="filter-tab active" data-filter="all">TOUS</button>
@@ -29,15 +28,15 @@
 
         <div class="projects-grid-container" id="projectsListContainer">
 
-            @if($projets->isEmpty())
+            <?php if($projets->isEmpty()): ?>
                 <div class="empty-state-grid" id="noProjectMessage">
                     <div class="empty-icon"><i class="fa-solid fa-folder-open"></i></div>
                     <p>Aucun projet trouvé.</p>
                 </div>
-            @else
+            <?php else: ?>
                 
-                @foreach ($projets as $project)
-                    @php
+                <?php $__currentLoopData = $projets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $project): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php
                         // Logique des couleurs de base
                         $borderClass = 'border-pending';
                         $badgeClass  = 'bg-pending';
@@ -53,50 +52,50 @@
                         // Calcul pour la barre de progression (pour la modale)
                         $pourcentage = ($project->heures_allouees > 0) ? ($project->heures_consommees / $project->heures_allouees) * 100 : 0;
                         $couleurBarre = ($pourcentage >= 100) ? 'bg-danger' : (($pourcentage >= 80) ? 'bg-warning' : 'bg-success');
-                    @endphp
+                    ?>
 
-                    <div class="project-card {{ $borderClass }}" data-status="{{ $project->statut }}">
+                    <div class="project-card <?php echo e($borderClass); ?>" data-status="<?php echo e($project->statut); ?>">
                         
                         <div class="card-header">
-                            <span class="client-name">{{ $project->client->entreprise ?? 'Client inconnu' }}</span>
-                            <span class="status-pill {{ $badgeClass }}">{{ $project->statut }}</span>
+                            <span class="client-name"><?php echo e($project->client->entreprise ?? 'Client inconnu'); ?></span>
+                            <span class="status-pill <?php echo e($badgeClass); ?>"><?php echo e($project->statut); ?></span>
                         </div>
                         
-                        <div class="card-title">{{ $project->nom }}</div>
+                        <div class="card-title"><?php echo e($project->nom); ?></div>
                         
                         <div class="card-details">
                             <div class="detail-row">
                                 <i class="fa-regular fa-calendar"></i> 
-                                <span>Du {{ date('d/m/Y', strtotime($project->date_debut)) }} au {{ date('d/m/Y', strtotime($project->date_fin)) }}</span>
+                                <span>Du <?php echo e(date('d/m/Y', strtotime($project->date_debut))); ?> au <?php echo e(date('d/m/Y', strtotime($project->date_fin))); ?></span>
                             </div>
                             <div class="detail-row">
                                 <i class="fa-solid fa-hourglass-half"></i> 
-                                <span><strong>{{ $project->heures_consommees }}h</strong> / {{ $project->heures_allouees }}h</span>
+                                <span><strong><?php echo e($project->heures_consommees); ?>h</strong> / <?php echo e($project->heures_allouees); ?>h</span>
                             </div>
                         </div>
                         
                         <button class="btn-details php-btn-details" 
-                                data-id="{{ $project->id }}"
-                                data-nom="{{ $project->nom }}"
-                                data-client_id="{{ $project->client_id }}"
-                                data-client="{{ $project->client->entreprise ?? '' }}"
-                                data-statut="{{ $project->statut }}"
-                                data-badge="{{ $badgeClass }}"
-                                data-debut="{{ $project->date_debut }}"
-                                data-fin="{{ $project->date_fin }}"
-                                data-heures="{{ $project->heures_allouees }}"
-                                data-desc="{{ $project->description }}"
-                                data-consommees="{{ $project->heures_consommees }}"
-                                data-restantes="{{ $project->heures_restantes }}"
-                                data-taux="{{ $project->taux_horaire ?? '0' }}"
-                                data-pourcentage="{{ min($pourcentage, 100) }}"
-                                data-couleur="{{ $couleurBarre }}">
+                                data-id="<?php echo e($project->id); ?>"
+                                data-nom="<?php echo e($project->nom); ?>"
+                                data-client_id="<?php echo e($project->client_id); ?>"
+                                data-client="<?php echo e($project->client->entreprise ?? ''); ?>"
+                                data-statut="<?php echo e($project->statut); ?>"
+                                data-badge="<?php echo e($badgeClass); ?>"
+                                data-debut="<?php echo e($project->date_debut); ?>"
+                                data-fin="<?php echo e($project->date_fin); ?>"
+                                data-heures="<?php echo e($project->heures_allouees); ?>"
+                                data-desc="<?php echo e($project->description); ?>"
+                                data-consommees="<?php echo e($project->heures_consommees); ?>"
+                                data-restantes="<?php echo e($project->heures_restantes); ?>"
+                                data-taux="<?php echo e($project->taux_horaire ?? '0'); ?>"
+                                data-pourcentage="<?php echo e(min($pourcentage, 100)); ?>"
+                                data-couleur="<?php echo e($couleurBarre); ?>">
                             <i class="fa-solid fa-eye"></i> + de détails
                         </button>
                     </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-            @endif
+            <?php endif; ?>
 
         </div>
     </section>
@@ -113,7 +112,7 @@
             </header>
             
             <form class="modal-form" id="formCreateProject" method="POST" action="/projets">
-                @csrf
+                <?php echo csrf_field(); ?>
                 <div class="form-group">
                     <label>Nom du projet</label>
                     <input type="text" name="nom" placeholder="Ex: Refonte Site Web" required>
@@ -123,9 +122,9 @@
                         <label>Client</label>
                         <select name="client_id" required>
                             <option value="">Sélectionner un client...</option>
-                            @foreach ($clients as $c)
-                                <option value="{{ $c->id }}">{{ $c->entreprise }}</option>
-                            @endforeach
+                            <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $c): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($c->id); ?>"><?php echo e($c->entreprise); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
                     <div class="form-group flex-1">
@@ -159,12 +158,12 @@
              <label style="font-weight: bold; display: block; margin-bottom: 10px;">Assigner des collaborateurs :</label>
     
     <div style="background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; max-height: 200px; overflow-y: auto;">
-        @foreach($collaborateurs as $collab)
+        <?php $__currentLoopData = $collaborateurs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $collab): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div style="margin-bottom: 8px;">
-                <input type="checkbox" id="collab_{{ $collab->id }}" name="collaborateurs[]" value="{{ $collab->id }}">
-                <label for="collab_{{ $collab->id }}" style="margin-left: 8px; cursor: pointer;">{{ $collab->name }}</label>
+                <input type="checkbox" id="collab_<?php echo e($collab->id); ?>" name="collaborateurs[]" value="<?php echo e($collab->id); ?>">
+                <label for="collab_<?php echo e($collab->id); ?>" style="margin-left: 8px; cursor: pointer;"><?php echo e($collab->name); ?></label>
             </div>
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
 </div>
                 <div class="form-group">
@@ -226,8 +225,8 @@
 
                <footer class="modal-footer" style="justify-content: space-between; display: flex; width: 100%;">
                     <form id="formDeleteProject" method="POST" action="" style="margin: 0;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce projet ?');">
-                        @csrf
-                        @method('DELETE')
+                        <?php echo csrf_field(); ?>
+                        <?php echo method_field('DELETE'); ?>
                         <button type="submit" class="btn-cancel" style="color: #dc3545; border-color: #dc3545; display: flex; align-items: center; gap: 8px;">
                             <i class="fa-solid fa-trash"></i> Supprimer
                         </button>
@@ -252,8 +251,8 @@
             </header>
             
             <form class="modal-form" id="formEditProject" method="POST" action="">
-                @csrf
-                @method('PUT') 
+                <?php echo csrf_field(); ?>
+                <?php echo method_field('PUT'); ?> 
                 <div class="form-group">
                     <label>Nom du projet</label>
                     <input type="text" id="editProjNom" name="nom" required>
@@ -263,9 +262,9 @@
                         <label>Client</label>
                         <select id="editProjClient" name="client_id" required >
                             <option value="">Sélectionner un client...</option>
-                            @foreach ($clients as $c)
-                                <option value="{{ $c->id }}">{{ $c->entreprise }}</option>
-                            @endforeach
+                            <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $c): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($c->id); ?>"><?php echo e($c->entreprise); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
                     <div class="form-group flex-1">
@@ -307,7 +306,8 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/projects.js') }}"></script>
-    <script src="{{ asset('js/global.js') }}"></script>
+    <script src="<?php echo e(asset('js/projects.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/global.js')); ?>"></script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/scotty/tp-web-3/tixpro-laravel/resources/views/projets/index.blade.php ENDPATH**/ ?>

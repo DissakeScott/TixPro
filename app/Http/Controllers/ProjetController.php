@@ -6,23 +6,44 @@ use App\Models\Projet;
 use App\Models\Client; // On importe Client car un projet est souvent lié à un client
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // On importe Auth pour associer les projets à l'utilisateur connecté
-
+use App\Models\User; // On importe User pour gérer les collaborateurs liés aux projets
 class ProjetController
-{
-    // 1. AFFICHER LA LISTE DES PROJETS
-    public function index()
-    {
-        // On récupère les projets (avec les infos de leur client s'il y a une relation)
-        // Si tu n'as pas de relation client dans ta table projets, on changera ça !
-        $projets = Projet::where('user_id', Auth::id())
-        -> orderBy('id', 'desc')
-        ->get();
-        
-        // On récupère les clients pour la liste déroulante lors de la création d'un projet
-        $clients = Client::orderBy('entreprise', 'asc')->get();
 
-        return view('projets.index', compact('projets', 'clients'));
+
+{
+    public function create()
+    {
+        // On récupère uniquement les collaborateurs
+        $collaborateurs = User::where('role', 'Collaborateur')->get();
+        // (Tu as sûrement aussi $clients = User::where('role', 'Client')->get();)
+        
+        return view('projets.create', compact('collaborateurs')); // Ajoute tes variables habituelles
     }
+
+
+ public function index()
+    {
+        $user = Auth::user();
+
+        // 1. On récupère les projets
+        if ($user->role === 'Administrateur') {
+            $projets = Projet::with('client')->latest()->get();
+        } else {
+            $projets = $user->projets()->with('client')->latest()->get();
+        }
+
+        // 2. On charge les clients pour le menu déroulant du formulaire
+        // (Vérifie si tu utilises le modèle Client ou User pour ça, 
+        // par défaut c'est souvent Client::all() si tu as une table séparée)
+        $clients = \App\Models\Client::all(); 
+
+        // 3. On charge les collaborateurs pour les cases à cocher
+        $collaborateurs = \App\Models\User::where('role', 'Collaborateur')->get();
+
+        // 4. On envoie TOUTES les variables à la vue
+        return view('projets.index', compact('projets', 'collaborateurs', 'clients'));
+    }
+    
 
     // 2. CRÉER UN NOUVEAU PROJET
    public function store(Request $request)
@@ -49,7 +70,10 @@ class ProjetController
         $projet->heures_allouees = $request->heures_allouees;
         $projet->description = $request->description;
         $projet->save();
-
+   
+        if ($request->has('collaborateurs')) {
+            $projet->collaborateurs()->sync($request->collaborateurs);
+        }
         return redirect('/projets')->with('success', 'Le projet a été créé avec succès !');
     }
 

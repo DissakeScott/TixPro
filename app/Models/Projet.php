@@ -55,6 +55,12 @@ class Projet extends Model
      * Détermine l'état de l'enveloppe d'heures (pour l'affichage en couleur plus tard).
      */
 
+    public function collaborateurs()
+    {
+        return $this->belongsToMany(User::class, 'projet_user', 'projet_id', 'user_id');
+    }
+
+    
     public function getEtatContratAttribute()
     {
         if (is_null($this->heures_allouees) || $this->heures_allouees == 0) {

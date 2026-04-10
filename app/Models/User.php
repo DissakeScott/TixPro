@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -19,6 +21,12 @@ class User extends Authenticatable
         'password',
         'role', 
     ];
+
+
+    public function projets()
+    {
+        return $this->belongsToMany(Projet::class, 'projet_user', 'user_id', 'projet_id');
+    }
 
     public function getInitialsAttribute()
     {
@@ -51,11 +59,7 @@ class User extends Authenticatable
     }
 
     
-    public function projets()
-    {
-        return $this->hasMany(Projet::class);
-    }
-
+    
 
     public function tickets()
     {

@@ -5,18 +5,33 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Client;
+use App\Models\Projet;
+use App\Models\Ticket;
+use App\Models\TempsPasse;
+use App\Models\User;
+
 
 class ClientController 
 {
     public function index()
     {
-       
-        $clients = Client::where('user_id', Auth::id())
+       $user = Auth::user();
+
+        if ($user->role === 'Administrateur') {
+            // 👑 L'Admin voit tous les clients du système
+        $clients = Client::withCount(['projets' => function ($query) {
+            $query->where('statut', '!=', 'Terminé'); 
+        }])
         -> withCount(['projets' => function ($query) {
             $query->where('statut', '!=', 'Terminé'); 
         }])
         -> orderBy('entreprise', 'asc')
-        -> get();
+        -> get();        } 
+        
+        else {
+             abort(403, 'Seul un administrateur peut voir le répertoire client.');
+        }
+        
 
         return view('clients.index', compact('clients'));
     

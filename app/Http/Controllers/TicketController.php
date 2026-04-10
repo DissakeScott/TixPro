@@ -9,15 +9,21 @@ use Illuminate\Support\Facades\Auth;
 
 class TicketController
 {
-    // 1. AFFICHER LA PAGE DES TICKETS
     public function index()
     {
+if (Auth::user()->role === 'Administrateur') {
+            // 👑 L'Admin voit tous les tickets du système
+         $tickets = Ticket::with('projet')->orderBy('id', 'desc')->get();
+        $projets = Projet::orderBy('nom', 'asc')->get();
 
+        
+         } 
+        else {
+        
         $tickets = Ticket::with('projet')->where('user_id', Auth::id())->orderBy('id', 'desc')->get();
         
-        // On récupère aussi tous les projets pour remplir la liste déroulante "<select>"
         $projets = Projet::where('user_id', Auth::id())->orderBy('nom', 'asc')->get();
-
+        }
         return view('tickets.index', compact('tickets', 'projets'));
     }
 

@@ -22,6 +22,15 @@ class CheckRole
             return redirect('/login');
         }
 
+        $userRole = Auth::user()->role;
+
+        // 2. L'Administrateur a un passe-partout absolu
+        if ($userRole === 'Administrateur') {
+            return $next($request);
+        }
+
+     
+       
         // 2. Si son rôle ne correspond pas au rôle exigé par la route
         if (Auth::user()->role !== $role) {
             
