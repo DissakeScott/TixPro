@@ -46,6 +46,8 @@ C'est l'interface de travail de l'équipe (Administrateurs et Collaborateurs).
  <img width="1720" height="1285" alt="Capture d’écran du 2026-04-20 09-50-33" src="https://github.com/user-attachments/assets/ec2a776e-e685-4750-8b6b-037857afaf6b" />
 
 - **Les Projets :** Affiche la liste des clients et les jauges de consommation de leurs forfaits d'heures.
+<img width="1720" height="1285" alt="Capture d’écran du 2026-04-20 10-10-54" src="https://github.com/user-attachments/assets/f695ad43-9e91-4704-9662-d407c5fe5682" />
+
 - **Les Tickets :** Permet de changer les statuts et de déclarer du temps de travail.
 
 <img width="1720" height="1285" alt="Capture d’écran du 2026-04-20 09-51-40" src="https://github.com/user-attachments/assets/7f06cb03-2a4c-4a78-88ce-4b92c7ea8d7e" />
