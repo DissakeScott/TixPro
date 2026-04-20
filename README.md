@@ -50,7 +50,7 @@ C'est l'interface de travail de l'équipe (Administrateurs et Collaborateurs).
 
 - **Les Tickets :** Permet de changer les statuts et de déclarer du temps de travail.
 
-<img width="1720" height="1285" alt="Capture d’écran du 2026-04-20 09-51-40" src="https://github.com/user-attachments/assets/7f06cb03-2a4c-4a78-88ce-4b92c7ea8d7e" />
+<img width="1720" height="1285" alt="Capture d’écran du 2026-04-20 10-20-31" src="https://github.com/user-attachments/assets/2560cc14-c6c0-4a6d-8d4a-fb67ebd98719" />
 
 
 ### 2. Le Portail Client (Extranet)
