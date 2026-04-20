@@ -1,3 +1,10 @@
+
+
+<img width="3374" height="1408" alt="Capture d’écran du 2026-04-10 22-00-36" src="https://github.com/user-attachments/assets/fbef6448-1afe-475c-bf77-41c0718b598d" />
+
+
+
+
 # Documentation fonctionnelle - TixPro
 
 TixPro est un outil de gestion de tickets et de suivi du temps conçu pour les agences web. Son but principal est de simplifier le suivi des heures vendues aux clients et de gérer proprement la validation des demandes qui sortent du forfait.
